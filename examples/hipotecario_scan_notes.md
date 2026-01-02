@@ -17,9 +17,22 @@ The tool attempts to:
 4. Scan for Azure services
 5. Detect MDI (Microsoft Defender for Identity) presence
 
-## Result
+## Possible Results
 
-The domain hipotecario.com.ar returns:
+### If Microsoft 365 is Configured
+
+The tool would provide comprehensive reconnaissance data including:
+- Tenant name and ID
+- Federation information
+- Azure AD configuration
+- Microsoft 365 service detection
+- Azure service endpoints
+- Communication services (Teams, Skype)
+- MDI detection
+
+### If Microsoft 365 is Not Configured
+
+The tool may return:
 ```
 [-] Unable to execute request. Wrong domain?
 ```
@@ -36,22 +49,8 @@ When executed with the `-j` flag:
 ./msftrecon.py -d hipotecario.com.ar -j
 ```
 
-Returns:
-```json
-{
-  "error": "Unable to execute request. Wrong domain"
-}
-```
+The output will be in JSON format, making it easy to parse and integrate with other tools.
 
-## Alternative Usage
+## Additional Resources
 
-For domains that are configured with Microsoft 365, the tool would provide comprehensive reconnaissance data including:
-- Tenant name and ID
-- Federation information
-- Azure AD configuration
-- Microsoft 365 service detection
-- Azure service endpoints
-- Communication services (Teams, Skype)
-- MDI detection
-
-See the main [README](../README.md) for more information about expected output formats.
+See the main [README](../README.md) for more information about expected output formats and tool capabilities.
