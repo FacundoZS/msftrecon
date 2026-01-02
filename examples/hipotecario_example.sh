@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # Example script to run msftrecon against hipotecario.com.ar domain
 # This demonstrates how to execute the tool for reconnaissance
@@ -36,11 +35,20 @@ echo "[+] Executing scan with JSON output..."
 # Run scan with JSON output and save to file
 # Redirect stderr to separate error log to preserve JSON integrity
 ERROR_LOG="$OUTPUT_DIR/${DOMAIN}_errors.log"
-if "$MSFTRECON_PATH" -d "$DOMAIN" -j > "$OUTPUT_DIR/${DOMAIN}_results.json" 2>"$ERROR_LOG"; then
+
+# Temporarily disable set -e to capture exit code
+set +e
+"$MSFTRECON_PATH" -d "$DOMAIN" -j > "$OUTPUT_DIR/${DOMAIN}_results.json" 2>"$ERROR_LOG"
+EXIT_CODE=$?
+set -e
+
+if [ $EXIT_CODE -eq 0 ]; then
     echo "[*] Reconnaissance complete!"
     echo "[*] Results saved to: $OUTPUT_DIR/${DOMAIN}_results.json"
     # Remove error log if empty
-    [ ! -s "$ERROR_LOG" ] && rm -f "$ERROR_LOG"
+    if [ ! -s "$ERROR_LOG" ]; then
+        rm -f "$ERROR_LOG"
+    fi
 else
     echo "[!] Scan completed with errors."
     echo "[*] Results saved to: $OUTPUT_DIR/${DOMAIN}_results.json"
