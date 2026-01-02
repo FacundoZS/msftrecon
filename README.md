@@ -25,6 +25,11 @@ Basic scan:
 ./msftrecon.py -d example.com
 ```
 
+Scan specific domain (e.g., hipotecario.com.ar):
+```bash
+./msftrecon.py -d hipotecario.com.ar
+```
+
 JSON output:
 ```bash
 ./msftrecon.py -d example.com -j
@@ -38,6 +43,15 @@ Government cloud:
 China cloud:
 ```bash
 ./msftrecon.py -d example.cn --cn
+```
+
+### Examples
+
+For pre-configured examples and scripts, see the [examples directory](./examples/README.md). This includes a ready-to-use script for scanning hipotecario.com.ar:
+
+```bash
+cd examples
+bash hipotecario_example.sh
 ```
 
 ## Sample Output
