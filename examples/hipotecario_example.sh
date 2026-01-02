@@ -34,9 +34,17 @@ echo "[+] Executing basic scan..."
 echo ""
 echo "[+] Executing scan with JSON output..."
 # Run scan with JSON output and save to file
-if "$MSFTRECON_PATH" -d "$DOMAIN" -j > "$OUTPUT_DIR/${DOMAIN}_results.json"; then
+# Redirect stderr to separate error log to preserve JSON integrity
+ERROR_LOG="$OUTPUT_DIR/${DOMAIN}_errors.log"
+if "$MSFTRECON_PATH" -d "$DOMAIN" -j > "$OUTPUT_DIR/${DOMAIN}_results.json" 2>"$ERROR_LOG"; then
     echo "[*] Reconnaissance complete!"
     echo "[*] Results saved to: $OUTPUT_DIR/${DOMAIN}_results.json"
+    # Remove error log if empty
+    [ ! -s "$ERROR_LOG" ] && rm -f "$ERROR_LOG"
 else
-    echo "[!] Scan completed with errors. Check $OUTPUT_DIR/${DOMAIN}_results.json for details."
+    echo "[!] Scan completed with errors."
+    echo "[*] Results saved to: $OUTPUT_DIR/${DOMAIN}_results.json"
+    if [ -s "$ERROR_LOG" ]; then
+        echo "[*] Error details: $ERROR_LOG"
+    fi
 fi

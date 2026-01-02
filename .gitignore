@@ -1,6 +1,5 @@
 # Output directory
 output/
-*.json
 
 # Python
 __pycache__/
