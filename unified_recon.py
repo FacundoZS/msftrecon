@@ -9,11 +9,6 @@ import argparse
 import sys
 import os
 import subprocess
-import asyncio
-
-# Add paths for submodules
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'blackbird'))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'cr3dov3r'))
 
 from colorama import init, Fore
 
@@ -43,42 +38,24 @@ def run_msftrecon(args):
 def run_blackbird(args):
     """Run Blackbird username search"""
     print(Fore.GREEN + "\n[+] Running Blackbird username search...\n" + Fore.RESET)
-    # Change to blackbird directory
-    original_dir = os.getcwd()
+    # Run blackbird as subprocess in its directory to avoid path issues
+    blackbird_script = os.path.join(os.path.dirname(__file__), 'blackbird', 'blackbird.py')
     blackbird_dir = os.path.join(os.path.dirname(__file__), 'blackbird')
-    os.chdir(blackbird_dir)
-    
-    try:
-        from blackbird import findUsername
-        asyncio.run(findUsername(args.username))
-    finally:
-        os.chdir(original_dir)
+    cmd = [sys.executable, 'blackbird.py', '-u', args.username]
+    subprocess.run(cmd, cwd=blackbird_dir)
 
 def run_cr3dov3r(args):
     """Run Cr3dOv3r credential checker"""
     print(Fore.GREEN + "\n[+] Running Cr3dOv3r credential checker...\n" + Fore.RESET)
-    # Change to cr3dov3r directory
-    original_dir = os.getcwd()
+    # Run cr3dov3r as subprocess in its directory to avoid path issues
     cr3dov3r_dir = os.path.join(os.path.dirname(__file__), 'cr3dov3r')
-    os.chdir(cr3dov3r_dir)
-    
-    try:
-        # Import cr3dov3r modules
-        import Cr3d0v3r as cr3d
-        
-        # Create args for cr3dov3r
-        cr3d_args = argparse.Namespace()
-        cr3d_args.email = args.email
-        cr3d_args.p = args.p if hasattr(args, 'p') else False
-        cr3d_args.np = args.np if hasattr(args, 'np') else False
-        cr3d_args.q = True  # Quiet mode to avoid duplicate banner
-        
-        # Run cr3dov3r
-        cr3d.args = cr3d_args
-        cr3d.email = args.email
-        cr3d.main()
-    finally:
-        os.chdir(original_dir)
+    cmd = [sys.executable, 'Cr3d0v3r.py', args.email]
+    if args.p:
+        cmd.append('-p')
+    elif args.np:
+        cmd.append('-np')
+    cmd.append('-q')  # Quiet mode
+    subprocess.run(cmd, cwd=cr3dov3r_dir)
 
 def main():
     parser = argparse.ArgumentParser(
