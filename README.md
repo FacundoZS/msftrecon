@@ -1,18 +1,24 @@
-# MSFTRecon
+# MSFTRecon - Unified OSINT Reconnaissance Tool
 
-MSFTRecon is a reconnaissance tool designed for red teamers and security professionals to map Microsoft 365 and Azure tenant infrastructure. It performs comprehensive enumeration without requiring authentication, helping identify potential security misconfigurations and attack vectors.
+MSFTRecon is now a comprehensive reconnaissance suite that combines three powerful OSINT tools:
+
+1. **MSFTRecon** - Microsoft 365 and Azure tenant infrastructure mapping
+2. **Blackbird** - Username OSINT across 131+ social networks
+3. **Cr3dOv3r** - Credential reuse and breach checking
+
+This unified tool is designed for red teamers and security professionals to perform comprehensive reconnaissance without requiring authentication.
 
 
 ## Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/msftrecon.git
+git clone https://github.com/FacundoZS/msftrecon.git
 cd msftrecon
 
-# Create virtual environment
+# Create virtual environment (recommended)
 python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install requirements
 pip install -r requirements.txt
@@ -20,7 +26,33 @@ pip install -r requirements.txt
 
 ## Usage
 
-Basic scan:
+### Unified Tool (All-in-One)
+
+The unified_recon.py script combines all three tools:
+
+```bash
+# Run MSFTRecon only
+./unified_recon.py --msftrecon -d example.com
+
+# Search for username across social networks (Blackbird)
+./unified_recon.py --blackbird -u john_doe
+
+# Check email for credential leaks (Cr3dOv3r)
+./unified_recon.py --cr3dov3r -e user@example.com
+
+# Run all tools together
+./unified_recon.py --all -d example.com -u john_doe -e user@example.com
+
+# List all supported sites for username search
+./unified_recon.py --list-sites
+
+# Start Blackbird web interface
+./unified_recon.py --web
+```
+
+### Individual Tool Usage
+
+#### MSFTRecon (Microsoft 365/Azure Reconnaissance)
 ```bash
 ./msftrecon.py -d example.com
 ```
@@ -38,6 +70,35 @@ Government cloud:
 China cloud:
 ```bash
 ./msftrecon.py -d example.cn --cn
+```
+
+#### Blackbird (Username OSINT)
+
+Search for a username across 131+ social networks:
+```bash
+cd blackbird
+python3 blackbird.py -u username
+```
+
+Run web interface:
+```bash
+cd blackbird
+python3 blackbird.py --web
+# Access http://127.0.0.1:5000 in browser
+```
+
+#### Cr3dOv3r (Credential Reuse Checker)
+
+Check if an email appears in data breaches and test credential reuse:
+```bash
+cd cr3dov3r
+python3 Cr3d0v3r.py user@example.com
+```
+
+Skip password checking:
+```bash
+cd cr3dov3r
+python3 Cr3d0v3r.py -p user@example.com
 ```
 
 ## Sample Output
@@ -67,7 +128,9 @@ Tenant Region: NA
 
 ## Red Team Usage
 
-MSFTRecon provides valuable insights for red teamers:
+This unified reconnaissance suite provides comprehensive insights for red teamers:
+
+### MSFTRecon - Identity & Infrastructure Attack Vectors
 
 1. **Identity Attack Vectors**
    - Identifies authentication methods for targeted attacks
@@ -89,13 +152,29 @@ MSFTRecon provides valuable insights for red teamers:
    - Identifies conditional access configurations
    - Reveals authentication requirements
 
-## Contributing
+### Blackbird - Username Intelligence
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+- Map target's digital footprint across 131+ platforms
+- Discover social media profiles for social engineering
+- Find additional email addresses and contact information
+- Identify metadata like location, bio, and profile pictures
+
+### Cr3dOv3r - Credential Intelligence
+
+- Check if target emails appear in data breaches
+- Retrieve plain text passwords from known leaks
+- Test credential reuse across multiple platforms
+- Identify which services use the same credentials
 
 ## Disclaimer
 
 This tool is intended for legal security assessments and penetration testing only. Users must obtain proper authorization before conducting security assessments. The authors are not responsible for any misuse or damage caused by this tool.
+
+**Important:** 
+- Blackbird and Cr3dOv3r are for educational purposes only
+- Always get permission before testing credentials
+- Respect privacy and data protection laws
+- Follow responsible disclosure practices
 
 ## License
 
@@ -103,8 +182,22 @@ This project is licensed under the MIT License
 
 ## Acknowledgments
 
-- Based on research and techniques from various Microsoft 365 and Azure security resources, plus check_mdi.py
+- MSFTRecon: Based on research and techniques from various Microsoft 365 and Azure security resources, plus check_mdi.py
+- Blackbird: Originally created by p1ngul1n0 - OSINT username search tool
+- Cr3dOv3r: Originally created by D4Vinci - Credential reuse attack tool
+
+## Tools Included
+
+### Blackbird
+- **Description:** OSINT tool to search for accounts by username across 131+ sites
+- **Original Repository:** https://github.com/p1ngul1n0/blackbird
+- **Features:** Async HTTP requests, metadata extraction, PDF export, web interface
+
+### Cr3dOv3r  
+- **Description:** Credential reuse attack tool for security testing
+- **Original Repository:** https://github.com/D4Vinci/Cr3dOv3r
+- **Features:** Breach data lookup via haveibeenpwned, plain text password retrieval, credential testing
 
 ## Author
 
-jhaddix
+FacundoZS (original MSFTRecon by jhaddix)

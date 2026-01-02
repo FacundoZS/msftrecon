@@ -1,2 +1,15 @@
+# MSFTRecon dependencies
 dnspython>=2.4.2
 urllib3>=2.1.0
+
+# Blackbird dependencies
+aiohttp>=3.9.0
+beautifulsoup4>=4.11.1
+colorama>=0.4.4
+Flask>=2.1.1
+Flask_Cors>=3.0.10
+
+# Cr3dOv3r dependencies
+mechanicalsoup>=0.9
+requests>=2.18.4
+pyOpenSSL>=16.2.0
