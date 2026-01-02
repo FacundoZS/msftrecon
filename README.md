@@ -8,6 +8,31 @@ MSFTRecon is now a comprehensive reconnaissance suite that combines three powerf
 
 This unified tool is designed for red teamers and security professionals to perform comprehensive reconnaissance without requiring authentication.
 
+## Features
+
+### 🎯 MSFTRecon
+- Enumerate Microsoft 365/Azure tenant information
+- Discover exposed applications and services
+- Identify authentication methods and federation configuration
+- Check for Azure AD Connect status
+- Detect Microsoft Defender for Identity (MDI) instances
+- Map Azure services (App Services, Storage, CDN, B2C, etc.)
+
+### 🔍 Blackbird  
+- Search across 131+ social networks and platforms
+- Async HTTP requests for supersonic speed
+- Metadata extraction (name, bio, location, profile pictures)
+- Export results as JSON or PDF reports
+- Web interface for easy usage
+- Random UserAgent rotation to avoid blocking
+
+### 🔐 Cr3dOv3r
+- Check emails against public breach databases (haveibeenpwned API)
+- Retrieve plain text passwords from known leaks
+- Test credential reuse across multiple platforms
+- Detect captcha protection mechanisms
+- Support for various login methods (forms, POST requests)
+
 
 ## Installation
 
@@ -22,6 +47,19 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install requirements
 pip install -r requirements.txt
+```
+
+## Quick Start
+
+```bash
+# See all available options
+python3 unified_recon.py --help
+
+# Run examples and usage guide
+python3 examples.py
+
+# Quick test - list all supported social networks
+python3 unified_recon.py --list-sites
 ```
 
 ## Usage
