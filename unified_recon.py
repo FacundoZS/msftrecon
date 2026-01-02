@@ -8,6 +8,8 @@ Combines MSFTRecon, Blackbird (username OSINT), and Cr3dOv3r (credential reuse)
 import argparse
 import sys
 import os
+import subprocess
+import asyncio
 
 # Add paths for submodules
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'blackbird'))
@@ -29,7 +31,6 @@ def run_msftrecon(args):
     """Run MSFTRecon tool"""
     print(Fore.GREEN + "\n[+] Running MSFTRecon...\n" + Fore.RESET)
     # Run msftrecon as subprocess to avoid import conflicts
-    import subprocess
     cmd = [sys.executable, os.path.join(os.path.dirname(__file__), 'msftrecon.py'), '-d', args.domain]
     if args.json:
         cmd.append('-j')
@@ -42,7 +43,6 @@ def run_msftrecon(args):
 def run_blackbird(args):
     """Run Blackbird username search"""
     print(Fore.GREEN + "\n[+] Running Blackbird username search...\n" + Fore.RESET)
-    import asyncio
     # Change to blackbird directory
     original_dir = os.getcwd()
     blackbird_dir = os.path.join(os.path.dirname(__file__), 'blackbird')
@@ -64,7 +64,6 @@ def run_cr3dov3r(args):
     
     try:
         # Import cr3dov3r modules
-        sys.path.insert(0, cr3dov3r_dir)
         import Cr3d0v3r as cr3d
         
         # Create args for cr3dov3r
